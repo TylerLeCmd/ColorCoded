@@ -17,7 +17,7 @@ var ground = 0;
 let onGround = false;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1080, 720);
   frameRate(60);
   rectMode(CENTER);
 }
