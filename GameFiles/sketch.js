@@ -15,6 +15,7 @@ var gravAcc = 1;
 let color = 0;
 var ground = 0;
 let onGround = false;
+let jumpType = "M";
 
 function setup() {
   createCanvas(1080, 720);
@@ -35,6 +36,9 @@ function draw() {
   text(playerJump, 10, 70);
   text(timeStamp, 10, 80);
   clock++;
+  if (clock/60 >= 60){
+    clock = 0;
+  }
 }
 
 function game() {
@@ -56,11 +60,15 @@ function movement() {
   } else {
     onGround = false;
   }
-  if (keyIsDown(65)) {
-    playerPosX -= playerSpeed;
-  } else if (keyIsDown(68)) {
-    playerPosX += playerSpeed;
-  } else { }
+  if (!keyIsDown(32)) {
+    if (onGround) {
+      if (keyIsDown(65)) {
+        playerPosX -= playerSpeed;
+      } else if (keyIsDown(68)) {
+        playerPosX += playerSpeed;
+      } else { }
+    }
+  }
   ySpeed += gravAcc;
   playerPosY += ySpeed;
   if (playerPosY + playerSize / 2 > ground) {
@@ -92,7 +100,7 @@ function keyReleased() {
   if (!keyIsDown(32)) {
     if (onGround) {
       if (timeStamp != 0) {
-        playerJump = ceil(timeStamp/20)*10 + 10;
+        playerJump = ceil(timeStamp / 20) * 10 + 10;
         ySpeed = -playerJump;
       }
     }
