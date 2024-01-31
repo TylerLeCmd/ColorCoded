@@ -11,6 +11,7 @@ var playerSpeed = 10;
 var xSpeed = 0;
 var ySpeed = 0;
 var gravAcc = 1;
+var windSpeed = 1;
 
 let color = 0;
 var ground = 0;
@@ -18,7 +19,8 @@ let onGround = false;
 let jumpType = "M";
 
 function setup() {
-  createCanvas(1080, 720);
+  // createCanvas(1080, 720);
+  createCanvas(windowWidth, windowHeight);
   frameRate(60);
   rectMode(CENTER);
 }
@@ -32,11 +34,18 @@ function draw() {
   // text(windowHeight - playerSize / 2, 200, 230);
   text(`${key} ${keyCode}`, 10, 40);
   text(onGround, 10, 50);
-  text(floor(clock / 60), 10, 60);
+  // text(floor(clock / 60), 10, 60);
+  text(clock, 10, 60);
   text(playerJump, 10, 70);
   text(timeStamp, 10, 80);
-  clock++;
-  if (clock/60 >= 60){
+  text(jumpType, 10, 90);
+  if (jumpType == "R") {
+    text("RIGHT JUMP", 10, 100);
+  } else if (jumpType == "L") {
+    text("LEFT JUMP", 10, 100);
+  } else { }
+  // clock++;
+  if (clock / 60 >= 60) {
     clock = 0;
   }
 }
@@ -49,8 +58,6 @@ function game() {
   square(playerPosX, playerPosY, playerSize);
   ground = 500;
   movement();
-
-
 }
 
 function movement() {
@@ -61,13 +68,19 @@ function movement() {
     onGround = false;
   }
   if (!keyIsDown(32)) {
+    //Logic for Walking
     if (onGround) {
       if (keyIsDown(65)) {
+        jumpType = "L";
         playerPosX -= playerSpeed;
       } else if (keyIsDown(68)) {
+        jumpType = "R";
         playerPosX += playerSpeed;
-      } else { }
+      } else {
+        jumpType = "M";
+      }
     }
+  } else {
   }
   ySpeed += gravAcc;
   playerPosY += ySpeed;
@@ -93,6 +106,16 @@ function movement() {
   } else {
     // ySpeed = -playerJump;
     timeStamp = 0;
+  }
+  if (!onGround) { 
+    if (jumpType == "R") {
+      playerPosX += playerSpeed/1.4 + (playerJump/40);
+      // playerPosX += playerSpeed/1.4;
+    } else if (jumpType == "L") {
+      playerPosX -= playerSpeed/1.4 + (playerJump/40);
+      // playerPosX -= playerSpeed/1.4;
+    } else { }
+    clock++; 
   }
 }
 
