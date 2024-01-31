@@ -17,12 +17,20 @@ let color = 0;
 var ground = 0;
 let onGround = false;
 let jumpType = "M";
+var boardW = 1080;
+var boardH = 720;
+var boardLeft = 0;
+var boardRight = 0;
+var boardTop = 0;
+var boardGround = 0;
 
 function setup() {
   // createCanvas(1080, 720);
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
   rectMode(CENTER);
+  playerPosX = windowWidth / 2;
+  playerPosY = windowHeight / 2;
 }
 
 function draw() {
@@ -32,6 +40,8 @@ function draw() {
   // text(playerPosY, 200, 210);
   // text(gravAcc, 200, 220);
   // text(windowHeight - playerSize / 2, 200, 230);
+  stroke(255);
+  fill(255);
   text(`${key} ${keyCode}`, 10, 40);
   text(onGround, 10, 50);
   // text(floor(clock / 60), 10, 60);
@@ -52,16 +62,30 @@ function draw() {
 
 function game() {
   background(color, 0, 0);
-
+  stroke(255);
+  fill(0);
+  rect(windowWidth / 2, windowHeight / 2, boardW, boardH)
+  boardLeft = windowWidth/2 - boardW/2;
+  boardRight = windowWidth/2 + boardW/2;
+  boardTop = windowHeight/2 - boardH/2;
+  boardGround = windowHeight/2 + boardH/2;
+  if (playerPosX <= boardLeft){
+    playerPosX = boardRight - 1;
+  }else if (playerPosX >= boardRight){
+    playerPosX = boardLeft + 1;
+  }else{}
   //Player Render
   fill(255);
   square(playerPosX, playerPosY, playerSize);
-  ground = 500;
+  noStroke();
+  fill(0);
+  rect((windowWidth / 2)+boardW/2+10, windowHeight / 2, 20, boardH+10);
+  rect((windowWidth / 2)-boardW/2-10, windowHeight / 2, 20, boardH+10)
   movement();
 }
 
 function movement() {
-  ground = height;
+  ground = boardGround;
   if (playerPosY + playerSize / 2 >= ground) {
     onGround = true;
   } else {
@@ -107,15 +131,15 @@ function movement() {
     // ySpeed = -playerJump;
     timeStamp = 0;
   }
-  if (!onGround) { 
+  if (!onGround) {
     if (jumpType == "R") {
-      playerPosX += playerSpeed/1.4 + (playerJump/40);
+      playerPosX += playerSpeed / 1.4 + (playerJump / 40);
       // playerPosX += playerSpeed/1.4;
     } else if (jumpType == "L") {
-      playerPosX -= playerSpeed/1.4 + (playerJump/40);
+      playerPosX -= playerSpeed / 1.4 + (playerJump / 40);
       // playerPosX -= playerSpeed/1.4;
     } else { }
-    clock++; 
+    clock++;
   }
 }
 
