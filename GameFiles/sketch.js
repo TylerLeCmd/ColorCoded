@@ -23,6 +23,7 @@ var boardLeft = 0;
 var boardRight = 0;
 var boardTop = 0;
 var boardGround = 0;
+let hitWall = true;
 
 function setup() {
   // createCanvas(1080, 720);
@@ -41,6 +42,7 @@ function draw() {
   // text(gravAcc, 200, 220);
   // text(windowHeight - playerSize / 2, 200, 230);
   stroke(255);
+  strokeWeight(1);
   fill(255);
   text(`${key} ${keyCode}`, 10, 40);
   text(onGround, 10, 50);
@@ -49,6 +51,9 @@ function draw() {
   text(playerJump, 10, 70);
   text(timeStamp, 10, 80);
   text(jumpType, 10, 90);
+  text(hitWall, 10, 110);
+  text(playerPosX, 40, 90);
+  text(playerPosY, 40, 110);
   if (jumpType == "R") {
     text("RIGHT JUMP", 10, 100);
   } else if (jumpType == "L") {
@@ -65,22 +70,30 @@ function game() {
   stroke(255);
   fill(0);
   rect(windowWidth / 2, windowHeight / 2, boardW, boardH)
-  boardLeft = windowWidth/2 - boardW/2;
-  boardRight = windowWidth/2 + boardW/2;
-  boardTop = windowHeight/2 - boardH/2;
-  boardGround = windowHeight/2 + boardH/2;
-  if (playerPosX <= boardLeft){
-    playerPosX = boardRight - 1;
-  }else if (playerPosX >= boardRight){
+  boardLeft = windowWidth / 2 - boardW / 2;
+  boardRight = windowWidth / 2 + boardW / 2;
+  boardTop = windowHeight / 2 - boardH / 2;
+  boardGround = windowHeight / 2 + boardH / 2;
+  if (playerPosX <= boardLeft) {
+    hitWall = true;
     playerPosX = boardLeft + 1;
-  }else{}
+    // playerPosX = boardRight - 1;
+  } else if (playerPosX >= boardRight) {
+    hitWall = true;
+    playerPosX = boardRight - 1;
+    // playerPosX = boardLeft + 1;
+  } else {
+    if (onGround){
+      hitWall = false;
+    }
+  }
   //Player Render
   fill(255);
   square(playerPosX, playerPosY, playerSize);
   noStroke();
   fill(0);
-  rect((windowWidth / 2)+boardW/2+10, windowHeight / 2, 20, boardH+10);
-  rect((windowWidth / 2)-boardW/2-10, windowHeight / 2, 20, boardH+10)
+  rect((windowWidth / 2) + boardW / 2 + 10, windowHeight / 2, 20, boardH + 10);
+  rect((windowWidth / 2) - boardW / 2 - 10, windowHeight / 2, 20, boardH + 10)
   movement();
 }
 
@@ -133,10 +146,20 @@ function movement() {
   }
   if (!onGround) {
     if (jumpType == "R") {
-      playerPosX += playerSpeed / 1.4 + (playerJump / 40);
+      if (!hitWall) {
+        playerPosX += playerSpeed / 1.4 + (playerJump / 40);
+      } else {
+        playerPosX = playerPosX - 1;
+        playerPosX -= playerSpeed / 1.4 + (playerJump / 45);
+      }
       // playerPosX += playerSpeed/1.4;
     } else if (jumpType == "L") {
-      playerPosX -= playerSpeed / 1.4 + (playerJump / 40);
+      if (!hitWall) {
+        playerPosX -= playerSpeed / 1.4 + (playerJump / 40);
+      }else {
+        playerPosX = playerPosX + 1;
+        playerPosX += playerSpeed / 1.4 + (playerJump / 45);
+      }
       // playerPosX -= playerSpeed/1.4;
     } else { }
     clock++;
@@ -146,6 +169,7 @@ function movement() {
 function keyReleased() {
   if (!keyIsDown(32)) {
     if (onGround) {
+      clock = 0;
       if (timeStamp != 0) {
         playerJump = ceil(timeStamp / 20) * 10 + 10;
         ySpeed = -playerJump;
