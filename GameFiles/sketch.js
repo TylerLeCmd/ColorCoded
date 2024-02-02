@@ -83,9 +83,10 @@ function game() {
     playerPosX = boardRight - 1;
     // playerPosX = boardLeft + 1;
   } else {
-    if (onGround){
-      hitWall = false;
-    }
+    hitWall = false;
+    // if (onGround){
+    //   hitWall = false;
+    // }
   }
   //Player Render
   fill(255);
@@ -146,21 +147,19 @@ function movement() {
   }
   if (!onGround) {
     if (jumpType == "R") {
-      if (!hitWall) {
-        playerPosX += playerSpeed / 1.4 + (playerJump / 40);
-      } else {
-        playerPosX = playerPosX - 1;
-        playerPosX -= playerSpeed / 1.4 + (playerJump / 45);
+      playerPosX += playerSpeed / 1.4 + (playerJump / 40);
+      if (hitWall) {
+        hitWall = false;
+        playerPosX -= playerSpeed;
+        jumpType = "L";
       }
-      // playerPosX += playerSpeed/1.4;
     } else if (jumpType == "L") {
-      if (!hitWall) {
-        playerPosX -= playerSpeed / 1.4 + (playerJump / 40);
-      }else {
-        playerPosX = playerPosX + 1;
-        playerPosX += playerSpeed / 1.4 + (playerJump / 45);
+      playerPosX -= playerSpeed / 1.4 + (playerJump / 40);
+      if (hitWall) {
+        hitWall = false;
+        playerPosX += playerSpeed;
+        jumpType = "R";
       }
-      // playerPosX -= playerSpeed/1.4;
     } else { }
     clock++;
   }
@@ -171,7 +170,7 @@ function keyReleased() {
     if (onGround) {
       clock = 0;
       if (timeStamp != 0) {
-        playerJump = ceil(timeStamp / 20) * 10 + 10;
+        playerJump = ceil(timeStamp / 30) * 10 + 10;
         ySpeed = -playerJump;
       }
     }
