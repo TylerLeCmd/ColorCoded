@@ -4,7 +4,7 @@ var timeStamp = 0;
 
 var playerPosX = 100;
 var playerPosY = 0;
-var playerSize = 25;
+var playerSize = 30;
 var playerJump = 20;
 var playerSpeed = 10;
 
@@ -28,6 +28,7 @@ let hitWall = true;
 let start = false;
 let desc = false;
 var shift = 0;
+let screen = [];
 
 function setup() {
   // createCanvas(1080, 720);
@@ -37,6 +38,9 @@ function setup() {
   playerPosX = windowWidth / 2;
   playerPosY = windowHeight / 2;
   font = loadFont('MinecraftRegular-Bmg3.otf');
+  for (let i = 0; i < 31; i++){
+    screen[i] = [];
+  }
 }
 
 function draw() {
