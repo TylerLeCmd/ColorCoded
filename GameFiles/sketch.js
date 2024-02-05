@@ -25,6 +25,10 @@ var boardTop = 0;
 var boardGround = 0;
 let hitWall = true;
 
+let start = false;
+let desc = false;
+var shift = 0;
+
 function setup() {
   // createCanvas(1080, 720);
   createCanvas(windowWidth, windowHeight);
@@ -32,36 +36,104 @@ function setup() {
   rectMode(CENTER);
   playerPosX = windowWidth / 2;
   playerPosY = windowHeight / 2;
+  font = loadFont('MinecraftRegular-Bmg3.otf');
 }
 
 function draw() {
-  game();
-  //info
-  // text(ySpeed, 200, 200);
-  // text(playerPosY, 200, 210);
-  // text(gravAcc, 200, 220);
-  // text(windowHeight - playerSize / 2, 200, 230);
+  if (!start) {
+    startScreen();
+  }
+  if (start && !desc) {
+    game();
+    //info
+    // text(ySpeed, 200, 200);
+    // text(playerPosY, 200, 210);
+    // text(gravAcc, 200, 220);
+    // text(windowHeight - playerSize / 2, 200, 230);
+    stroke(255);
+    strokeWeight(1);
+    fill(255);
+    textSize(12);
+    textAlign(LEFT);
+    text(`${key} ${keyCode}`, 10, 40);
+    text(onGround, 10, 50);
+    // text(floor(clock / 60), 10, 60);
+    text(clock, 10, 60);
+    text(playerJump, 10, 70);
+    text(timeStamp, 10, 80);
+    text(jumpType, 10, 90);
+    text(hitWall, 10, 110);
+    text(playerPosX, 40, 90);
+    text(playerPosY, 40, 110);
+    if (jumpType == "R") {
+      text("RIGHT JUMP", 10, 100);
+    } else if (jumpType == "L") {
+      text("LEFT JUMP", 10, 100);
+    } else { }
+    // clock++;
+    if (clock / 60 >= 60) {
+      clock = 0;
+    }
+  }
+}
+function startScreen() {
+  if (desc) {
+    description();
+  }
+  if (!start && !desc) {
+    background(0, 0, 0);
+    stroke(255);
+    text(mouseX, 40, 90);
+    text(mouseY, 40, 110);
+    textAlign(CENTER)
+    textSize(150)
+    fill(255)
+    textFont('Arial');
+    text("ColorCoded", windowWidth / 2, windowHeight / 2 - 250)
+    textSize(48);
+    fill(155);
+    textFont(font);
+    text("Journey Start", windowWidth / 2, windowHeight / 2);
+    text("Description", windowWidth / 2, (windowHeight / 2) + 175);
+    if (mouseX < windowWidth / 2 + 175 && mouseX > windowWidth / 2 - 175 && mouseY < (windowHeight / 2) + 50 && mouseY > (windowHeight / 2) - 50) {
+      fill(200);
+      text("> Journey Start <", windowWidth / 2, windowHeight / 2);
+      if (mouseIsPressed) {
+        start = true;
+      }
+    }
+    else if (mouseX < windowWidth / 2 + 175 && mouseX > windowWidth / 2 - 175 && mouseY < (windowHeight / 2) + 225 && mouseY > (windowHeight / 2) + 125) {
+      fill(200);
+      text("> Description <", windowWidth / 2, windowHeight / 2 + 175);
+      if (mouseIsPressed) {
+        desc = true;
+      }
+    } else {
+    }
+  }
+}
+function description() {
+  background(0, 0, 0);
   stroke(255);
-  strokeWeight(1);
-  fill(255);
-  text(`${key} ${keyCode}`, 10, 40);
-  text(onGround, 10, 50);
-  // text(floor(clock / 60), 10, 60);
-  text(clock, 10, 60);
-  text(playerJump, 10, 70);
-  text(timeStamp, 10, 80);
-  text(jumpType, 10, 90);
-  text(hitWall, 10, 110);
-  text(playerPosX, 40, 90);
-  text(playerPosY, 40, 110);
-  if (jumpType == "R") {
-    text("RIGHT JUMP", 10, 100);
-  } else if (jumpType == "L") {
-    text("LEFT JUMP", 10, 100);
-  } else { }
-  // clock++;
-  if (clock / 60 >= 60) {
-    clock = 0;
+  text(mouseX, 40, 90);
+  text(mouseY, 40, 110);
+  textAlign(CENTER)
+  textSize(75)
+  fill(255)
+  textFont('Arial');
+  text("ColorCoded", windowWidth / 2, windowHeight / 2 - 300)
+  textSize(36);
+  fill(155);
+  textFont(font);
+  text("Return", windowWidth / 2, (windowHeight / 2) + 275);
+  if (mouseX < windowWidth / 2 + 175 && mouseX > windowWidth / 2 - 175 && mouseY < (windowHeight / 2) + 275 && mouseY > (windowHeight / 2) + 225) {
+    // fill(125);
+    // rect(windowWidth / 2, windowHeight / 2 + 175, 350, 100);
+    fill(200);
+    text("> Return <", windowWidth / 2, windowHeight / 2 + 275);
+    if (mouseIsPressed) {
+      desc = false;
+    }
   }
 }
 

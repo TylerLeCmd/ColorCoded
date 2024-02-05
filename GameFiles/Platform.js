@@ -1,8 +1,8 @@
-function Jitter() {
-    this.x = random(width);
-    this.y = random(height);
-    this.diameter = random(10, 30);
-    this.speed = 1;
+function Platform(xp, yp, wl, hl) {
+    this.x = xp;
+    this.y = yp;
+    this.w = wl;
+    this.h = hl;
 
   this.move = function() {
     this.x += random(-this.speed, this.speed);
