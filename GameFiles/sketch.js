@@ -1,3 +1,5 @@
+//https://p5play.org/learn/
+
 //Player Vars
 var clock = 0;
 var timeStamp = 0;
@@ -29,6 +31,14 @@ let start = false;
 let desc = false;
 var shift = 0;
 let screen = [];
+
+var sprite_sheet;
+var walkAni;
+
+function preload(){
+  sprite_sheet = loadSpriteSheet('assets/walk_cycle.png',16,16,12);
+  walkAni = loadAnimation(sprite_sheet);
+}
 
 function setup() {
   // createCanvas(1080, 720);
