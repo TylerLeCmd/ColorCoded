@@ -32,12 +32,23 @@ let desc = false;
 var shift = 0;
 let screen = [];
 
-var sprite_sheet;
-var walkAni;
-
+let walkAni = [];
+let walkTimer = 0;
+let standAni;
 function preload(){
-  sprite_sheet = loadSpriteSheet('assets/walk_cycle.png',16,16,12);
-  walkAni = loadAnimation(sprite_sheet);
+  standAni = loadImage('assets/idle_square-2.png')
+  walkAni[0] = loadImage('assets/walk_cycle-1.png');
+  walkAni[1] = loadImage('assets/walk_cycle-2.png');
+  walkAni[2] = loadImage('assets/walk_cycle-3.png');
+  walkAni[3] = loadImage('assets/walk_cycle-4.png');
+  walkAni[4] = loadImage('assets/walk_cycle-5.png');
+  walkAni[5] = loadImage('assets/walk_cycle-6.png');
+  walkAni[6] = loadImage('assets/walk_cycle-7.png');
+  walkAni[7] = loadImage('assets/walk_cycle-8.png');
+  walkAni[8] = loadImage('assets/walk_cycle-9.png');
+  walkAni[9] = loadImage('assets/walk_cycle-10.png');
+  walkAni[10] = loadImage('assets/walk_cycle-11.png');
+  walkAni[11] = loadImage('assets/walk_cycle-12.png');
 }
 
 function setup() {
@@ -45,6 +56,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
   rectMode(CENTER);
+  imageMode(CENTER);
   playerPosX = windowWidth / 2;
   playerPosY = windowHeight / 2;
   font = loadFont('MinecraftRegular-Bmg3.otf');
@@ -54,8 +66,11 @@ function setup() {
 }
 
 function draw() {
-  if (!start) {
+  if (!start && !desc) {
     startScreen();
+  }
+  if (desc) {
+    description();
   }
   if (start && !desc) {
     game();
@@ -79,6 +94,7 @@ function draw() {
     text(hitWall, 10, 110);
     text(playerPosX, 40, 90);
     text(playerPosY, 40, 110);
+    text(walkTimer, 40, 130);
     if (jumpType == "R") {
       text("RIGHT JUMP", 10, 100);
     } else if (jumpType == "L") {
@@ -90,99 +106,7 @@ function draw() {
     }
   }
 }
-function startScreen() {
-  if (desc) {
-    description();
-  }
-  if (!start && !desc) {
-    background(0, 0, 0);
-    stroke(255);
-    text(mouseX, 40, 90);
-    text(mouseY, 40, 110);
-    textAlign(CENTER)
-    textSize(150)
-    fill(255)
-    textFont('Arial');
-    text("ColorCoded", windowWidth / 2, windowHeight / 2 - 250)
-    textSize(48);
-    fill(155);
-    textFont(font);
-    text("Journey Start", windowWidth / 2, windowHeight / 2);
-    text("Description", windowWidth / 2, (windowHeight / 2) + 175);
-    if (mouseX < windowWidth / 2 + 175 && mouseX > windowWidth / 2 - 175 && mouseY < (windowHeight / 2) + 50 && mouseY > (windowHeight / 2) - 50) {
-      fill(200);
-      text("> Journey Start <", windowWidth / 2, windowHeight / 2);
-      if (mouseIsPressed) {
-        start = true;
-      }
-    }
-    else if (mouseX < windowWidth / 2 + 175 && mouseX > windowWidth / 2 - 175 && mouseY < (windowHeight / 2) + 225 && mouseY > (windowHeight / 2) + 125) {
-      fill(200);
-      text("> Description <", windowWidth / 2, windowHeight / 2 + 175);
-      if (mouseIsPressed) {
-        desc = true;
-      }
-    } else {
-    }
-  }
-}
-function description() {
-  background(0, 0, 0);
-  stroke(255);
-  text(mouseX, 40, 90);
-  text(mouseY, 40, 110);
-  textAlign(CENTER)
-  textSize(75)
-  fill(255)
-  textFont('Arial');
-  text("ColorCoded", windowWidth / 2, windowHeight / 2 - 300)
-  textSize(36);
-  fill(155);
-  textFont(font);
-  text("Return", windowWidth / 2, (windowHeight / 2) + 275);
-  if (mouseX < windowWidth / 2 + 175 && mouseX > windowWidth / 2 - 175 && mouseY < (windowHeight / 2) + 275 && mouseY > (windowHeight / 2) + 225) {
-    // fill(125);
-    // rect(windowWidth / 2, windowHeight / 2 + 175, 350, 100);
-    fill(200);
-    text("> Return <", windowWidth / 2, windowHeight / 2 + 275);
-    if (mouseIsPressed) {
-      desc = false;
-    }
-  }
-}
 
-function game() {
-  background(color, 0, 0);
-  stroke(255);
-  fill(0);
-  rect(windowWidth / 2, windowHeight / 2, boardW, boardH)
-  boardLeft = windowWidth / 2 - boardW / 2;
-  boardRight = windowWidth / 2 + boardW / 2;
-  boardTop = windowHeight / 2 - boardH / 2;
-  boardGround = windowHeight / 2 + boardH / 2;
-  if (playerPosX <= boardLeft) {
-    hitWall = true;
-    playerPosX = boardLeft + 1;
-    // playerPosX = boardRight - 1;
-  } else if (playerPosX >= boardRight) {
-    hitWall = true;
-    playerPosX = boardRight - 1;
-    // playerPosX = boardLeft + 1;
-  } else {
-    hitWall = false;
-    // if (onGround){
-    //   hitWall = false;
-    // }
-  }
-  //Player Render
-  fill(255);
-  square(playerPosX, playerPosY, playerSize);
-  noStroke();
-  fill(0);
-  rect((windowWidth / 2) + boardW / 2 + 10, windowHeight / 2, 20, boardH + 10);
-  rect((windowWidth / 2) - boardW / 2 - 10, windowHeight / 2, 20, boardH + 10)
-  movement();
-}
 
 function movement() {
   ground = boardGround;
