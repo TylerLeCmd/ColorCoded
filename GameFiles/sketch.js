@@ -6,7 +6,7 @@ var timeStamp = 0;
 
 var playerPosX = 100;
 var playerPosY = 0;
-var playerSize = 30;
+var playerSize = 50;
 var playerJump = 20;
 var playerSpeed = 10;
 
@@ -34,21 +34,21 @@ let screen = [];
 
 let walkAni = [];
 let walkTimer = 0;
-let standAni;
+let walkFrame = 0;
 function preload(){
-  standAni = loadImage('assets/idle_square-2.png')
-  walkAni[0] = loadImage('assets/walk_cycle-1.png');
-  walkAni[1] = loadImage('assets/walk_cycle-2.png');
-  walkAni[2] = loadImage('assets/walk_cycle-3.png');
-  walkAni[3] = loadImage('assets/walk_cycle-4.png');
-  walkAni[4] = loadImage('assets/walk_cycle-5.png');
-  walkAni[5] = loadImage('assets/walk_cycle-6.png');
+  walkAni[0] = loadImage('assets/idle_square-2.png')
+  walkAni[1] = loadImage('assets/walk_cycle-1.png');
+  walkAni[2] = loadImage('assets/walk_cycle-2.png');
+  walkAni[3] = loadImage('assets/walk_cycle-3.png');
+  walkAni[4] = loadImage('assets/walk_cycle-4.png');
+  walkAni[5] = loadImage('assets/walk_cycle-5.png');
+  // walkAni[5] = loadImage('assets/walk_cycle-6.png');
   walkAni[6] = loadImage('assets/walk_cycle-7.png');
-  walkAni[7] = loadImage('assets/walk_cycle-8.png');
-  walkAni[8] = loadImage('assets/walk_cycle-9.png');
-  walkAni[9] = loadImage('assets/walk_cycle-10.png');
-  walkAni[10] = loadImage('assets/walk_cycle-11.png');
-  walkAni[11] = loadImage('assets/walk_cycle-12.png');
+  // walkAni[7] = loadImage('assets/walk_cycle-8.png');
+  walkAni[7] = loadImage('assets/walk_cycle-9.png');
+  walkAni[8] = loadImage('assets/walk_cycle-10.png');
+  walkAni[9] = loadImage('assets/walk_cycle-11.png');
+  walkAni[10] = loadImage('assets/walk_cycle-12.png');
 }
 
 function setup() {
@@ -95,6 +95,7 @@ function draw() {
     text(playerPosX, 40, 90);
     text(playerPosY, 40, 110);
     text(walkTimer, 40, 130);
+    text(walkFrame, 40, 150);
     if (jumpType == "R") {
       text("RIGHT JUMP", 10, 100);
     } else if (jumpType == "L") {
@@ -104,74 +105,6 @@ function draw() {
     if (clock / 60 >= 60) {
       clock = 0;
     }
-  }
-}
-
-
-function movement() {
-  ground = boardGround;
-  if (playerPosY + playerSize / 2 >= ground) {
-    onGround = true;
-  } else {
-    onGround = false;
-  }
-  if (!keyIsDown(32)) {
-    //Logic for Walking
-    if (onGround) {
-      if (keyIsDown(65)) {
-        jumpType = "L";
-        playerPosX -= playerSpeed;
-      } else if (keyIsDown(68)) {
-        jumpType = "R";
-        playerPosX += playerSpeed;
-      } else {
-        jumpType = "M";
-      }
-    }
-  } else {
-  }
-  ySpeed += gravAcc;
-  playerPosY += ySpeed;
-  if (playerPosY + playerSize / 2 > ground) {
-    playerPosY = ground - playerSize / 2
-    ySpeed = 0;
-  }
-  ySpeed = ySpeed * 0.98;
-
-  if (keyIsDown(32)) {
-    if (onGround) {
-      if (timeStamp < 60) {
-        timeStamp += 2;
-        // playerJump = timeStamp;
-      } else if (timeStamp = 60) {
-        timeStamp = 60;
-      } else {
-        timeStamp = 0;
-      }
-    } else {
-      timeStamp = 0;
-    }
-  } else {
-    // ySpeed = -playerJump;
-    timeStamp = 0;
-  }
-  if (!onGround) {
-    if (jumpType == "R") {
-      playerPosX += playerSpeed / 1.4 + (playerJump / 40);
-      if (hitWall) {
-        hitWall = false;
-        playerPosX -= playerSpeed;
-        jumpType = "L";
-      }
-    } else if (jumpType == "L") {
-      playerPosX -= playerSpeed / 1.4 + (playerJump / 40);
-      if (hitWall) {
-        hitWall = false;
-        playerPosX += playerSpeed;
-        jumpType = "R";
-      }
-    } else { }
-    clock++;
   }
 }
 

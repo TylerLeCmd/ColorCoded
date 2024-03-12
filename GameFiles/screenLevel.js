@@ -40,8 +40,20 @@ function game() {
   }
   //Player Render
   fill(255);
-  square(playerPosX, playerPosY, playerSize);
-  image(standAni, playerPosX, playerPosY, playerSize, playerSize);
+  // square(playerPosX, playerPosY, playerSize);
+  if (jumpType == "L") {
+    // push();
+    scale(-1, 1);
+    image(walkAni[walkFrame], playerPosX, playerPosY, playerSize, playerSize);
+    // pop();
+  } else if (jumpType == "R") {
+    push();
+    scale (1, 1);
+    image(walkAni[walkFrame], playerPosX, playerPosY, playerSize, playerSize);
+    pop();
+  } else {
+    image(walkAni[walkFrame], playerPosX, playerPosY, playerSize, playerSize);
+  }
   noStroke();
   fill(0);
   rect((windowWidth / 2) + boardW / 2 + 10, windowHeight / 2, 20, boardH + 10);
