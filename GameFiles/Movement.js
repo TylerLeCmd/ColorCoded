@@ -2,8 +2,13 @@ function movement() {
     ground = boardGround;
     if (playerPosY + playerSize / 2 >= ground) {
       onGround = true;
+      onTop = false;
+    } else if (playerPosY + playerSize / 2 <= boardTop) {
+      onGround = false;
+      onTop = true;
     } else {
       onGround = false;
+      onTop = false;
     }
     if (!keyIsDown(32)) {
       //Logic for Walking

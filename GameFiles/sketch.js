@@ -18,6 +18,9 @@ var windSpeed = 1;
 let color = 0;
 var ground = 0;
 let onGround = false;
+let onLeft = false;
+let onRight = false;
+let onTop = false;
 let jumpType = "M";
 var boardW = 1080;
 var boardH = 720;
@@ -32,23 +35,37 @@ let desc = false;
 var shift = 0;
 let screen = [];
 
-let walkAni = [];
+let walkRAni = [];
+let walkLAni = [];
 let walkTimer = 0;
 let walkFrame = 0;
 function preload(){
-  walkAni[0] = loadImage('assets/idle_square-2.png')
-  walkAni[1] = loadImage('assets/walk_cycle-1.png');
-  walkAni[2] = loadImage('assets/walk_cycle-2.png');
-  walkAni[3] = loadImage('assets/walk_cycle-3.png');
-  walkAni[4] = loadImage('assets/walk_cycle-4.png');
-  walkAni[5] = loadImage('assets/walk_cycle-5.png');
-  // walkAni[5] = loadImage('assets/walk_cycle-6.png');
-  walkAni[6] = loadImage('assets/walk_cycle-7.png');
-  // walkAni[7] = loadImage('assets/walk_cycle-8.png');
-  walkAni[7] = loadImage('assets/walk_cycle-9.png');
-  walkAni[8] = loadImage('assets/walk_cycle-10.png');
-  walkAni[9] = loadImage('assets/walk_cycle-11.png');
-  walkAni[10] = loadImage('assets/walk_cycle-12.png');
+  walkRAni[0] = loadImage('assets/idle_square-2.png')
+  walkRAni[1] = loadImage('assets/walk_cycle-1.png');
+  walkRAni[2] = loadImage('assets/walk_cycle-2.png');
+  walkRAni[3] = loadImage('assets/walk_cycle-3.png');
+  walkRAni[4] = loadImage('assets/walk_cycle-4.png');
+  walkRAni[5] = loadImage('assets/walk_cycle-5.png');
+  walkRAni[6] = loadImage('assets/walk_cycle-7.png');
+  walkRAni[7] = loadImage('assets/walk_cycle-9.png');
+  walkRAni[8] = loadImage('assets/walk_cycle-10.png');
+  walkRAni[9] = loadImage('assets/walk_cycle-11.png');
+  walkRAni[10] = loadImage('assets/walk_cycle-12.png');
+
+  walkLAni[0] = loadImage('assets/idle_square-2.png')
+  walkLAni[1] = loadImage('assets/lwalk1.png');
+  walkLAni[2] = loadImage('assets/lwalk2.png');
+  walkLAni[3] = loadImage('assets/lwalk3.png');
+  walkLAni[4] = loadImage('assets/lwalk4.png');
+  walkLAni[5] = loadImage('assets/lwalk5.png');
+  walkLAni[6] = loadImage('assets/lwalk7.png');
+  walkLAni[7] = loadImage('assets/lwalk9.png');
+  walkLAni[8] = loadImage('assets/lwalk10.png');
+  walkLAni[9] = loadImage('assets/lwalk11.png');
+  walkLAni[10] = loadImage('assets/lwalk12.png');
+
+  squatAni = loadImage('assets/idle_square-3.png')
+  jumpAni = loadImage('assets/idle_square-4.png')
 }
 
 function setup() {
@@ -61,7 +78,7 @@ function setup() {
   playerPosY = windowHeight / 2;
   font = loadFont('MinecraftRegular-Bmg3.otf');
   for (let i = 0; i < 31; i++){
-    screen[i] = [];
+    screen[i] = Screen(i);
   }
 }
 
@@ -86,6 +103,9 @@ function draw() {
     textAlign(LEFT);
     text(`${key} ${keyCode}`, 10, 40);
     text(onGround, 10, 50);
+    text(onLeft, 10, 120);
+    text(onRight, 10, 130);
+    text(onTop, 10, 140);
     // text(floor(clock / 60), 10, 60);
     text(clock, 10, 60);
     text(playerJump, 10, 70);
@@ -96,6 +116,7 @@ function draw() {
     text(playerPosY, 40, 110);
     text(walkTimer, 40, 130);
     text(walkFrame, 40, 150);
+    text(shift, 40, 170);
     if (jumpType == "R") {
       text("RIGHT JUMP", 10, 100);
     } else if (jumpType == "L") {
