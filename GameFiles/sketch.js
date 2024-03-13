@@ -91,23 +91,26 @@ function preload() {
   jumpAni = loadImage('assets/idle_square-4.png')
 
   arrow = loadImage('assets/redarrow.png')
-  fbla = loadImage('assets/fblablocks.png')
+  fbla = loadImage('assets/fblasquare.png')
+  sqbl = loadImage('assets/fblablocks.png')
+
+  font = loadFont('MinecraftRegular-Bmg3.otf');
 }
 
 function setup() {
-  // createCanvas(1080, 720);
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
   rectMode(CENTER);
   imageMode(CENTER);
+
+  //Starting Instantiations
   playerPosX = windowWidth / 2;
   playerPosY = windowHeight / 2;
   boardLeft = windowWidth / 2 - boardW / 2;
   boardRight = windowWidth / 2 + boardW / 2;
   boardTop = windowHeight / 2 - boardH / 2;
   boardGround = windowHeight / 2 + boardH / 2;
-  ground = boardGround;
-  font = loadFont('MinecraftRegular-Bmg3.otf');
+  ground = boardGround;  
 }
 
 function draw() {
@@ -119,24 +122,21 @@ function draw() {
   }
   if (start && !desc) {
     game();
-    //info
-    // text(ySpeed, 200, 200);
-    // text(playerPosY, 200, 210);
-    // text(gravAcc, 200, 220);
-    // text(windowHeight - playerSize / 2, 200, 230);
+
+    //Informational Text, Overlaid for Ease of Use
     stroke(255);
     strokeWeight(1);
     fill(255);
     textSize(12);
     textAlign(LEFT);
-    // if (keyIsDown(73)) {
+    if (keyIsDown(73)) {
       text(`${key} ${keyCode}`, 10, 40);
       text(onGround, 10, 50);
       text(onLeft, 10, 120);
       text(onRight, 10, 130);
       text(onTop, 10, 140);
       text(above, 10, 150);
-      // text(floor(clock / 60), 10, 60);
+      text(floor(clock / 60), 10, 60);
       text(clock, 10, 60);
       text(playerJump, 10, 70);
       text(timeStamp, 10, 80);
@@ -144,8 +144,8 @@ function draw() {
       text(hitWall, 10, 110);
       text(mouseX, 40, 70);
       text(mouseY, 40, 80);
-      // text(playerPosX, 40, 90);
-      // text(playerPosY, 40, 110);
+      text(playerPosX, 40, 90);
+      text(playerPosY, 40, 110);
       text(walkTimer, 40, 130);
       text(walkFrame, 40, 150);
       text(shift, 40, 170);
@@ -163,8 +163,9 @@ function draw() {
       // clock++;
       if (clock / 60 >= 60) {
         clock = 0;
-      // }
+      }
     }
+
   }
 }
 

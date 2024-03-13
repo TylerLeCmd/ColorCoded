@@ -1,7 +1,10 @@
 function movement() {
+  //Escape Feature
   if (keyIsDown(27)){
     start = false;
   }
+
+  //Ground VS Ceiling Detection
   if (playerPosY + playerSize / 2 >= ground) {
     onGround = true;
     onTop = false;
@@ -12,7 +15,10 @@ function movement() {
     onGround = false;
     onTop = false;
   }
+
+  //Disable Jumping Logic While Moving
   if (!keyIsDown(32)) {
+
     //Logic for Walking
     if (onGround) {
       if (keyIsDown(65)) {
@@ -39,16 +45,19 @@ function movement() {
     }
   } else {
   }
-  // if (!onGround){
+
+  //Constant Gravity Vectors
   ySpeed += gravAcc;
   playerPosY += ySpeed;
   ySpeed = ySpeed * 0.98;
-  // }
+
+  //Player Doesn't Fall Through Any Ground
   if (playerPosY + playerSize / 2 > ground) {
     playerPosY = ground - playerSize / 2
     ySpeed = 0;
   }
 
+  //Jumping Logic
   if (keyIsDown(32)) {
     if (onGround) {
       if (timeStamp < 60) {
@@ -66,6 +75,8 @@ function movement() {
     // ySpeed = -playerJump;
     timeStamp = 0;
   }
+
+  //Logic for Player While You're In The Air
   if (!onGround) {
     if (!sideHit) {
       if (jumpType == "R") {

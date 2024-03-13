@@ -1,8 +1,8 @@
 function startScreen() {
     background(0, 0, 0);
     stroke(255);
-    text(mouseX, 40, 90);
-    text(mouseY, 40, 110);
+    // text(mouseX, 40, 90);
+    // text(mouseY, 40, 110);
     textAlign(CENTER)
     textSize(150)
     fill(255)
