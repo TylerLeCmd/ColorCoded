@@ -37,13 +37,15 @@ function movement() {
       }
     } else {
     }
-    ySpeed += gravAcc;
-    playerPosY += ySpeed;
+    // if (!onGround){
+      ySpeed += gravAcc;
+      playerPosY += ySpeed;
+      ySpeed = ySpeed * 0.98;
+    // }
     if (playerPosY + playerSize / 2 > ground) {
       playerPosY = ground - playerSize / 2
       ySpeed = 0;
     }
-    ySpeed = ySpeed * 0.98;
   
     if (keyIsDown(32)) {
       if (onGround) {

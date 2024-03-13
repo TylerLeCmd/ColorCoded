@@ -2,12 +2,12 @@ function game() {
   background(color, 0, 0);
   stroke(255);
   fill(0);
-  Screen(ceil(shift));
   rect(windowWidth / 2, windowHeight / 2, boardW, boardH)
   boardLeft = windowWidth / 2 - boardW / 2;
   boardRight = windowWidth / 2 + boardW / 2;
   boardTop = windowHeight / 2 - boardH / 2;
   boardGround = windowHeight / 2 + boardH / 2;
+  Screen(ceil(shift));
   if (playerPosX <= boardLeft) {
     hitWall = true;
     onLeft = true;
@@ -15,7 +15,7 @@ function game() {
     if (nextScreen == "LEFT") {
       shift += 1;
       playerPosX = boardRight - 1;
-    } else{
+    } else {
       playerPosX = boardLeft + 1;
     }
     // if (prevScreen == "LEFT") {
@@ -31,7 +31,7 @@ function game() {
     if (nextScreen == "RIGHT") {
       shift += 1;
       playerPosX = boardLeft + 1;
-    } else{
+    } else {
       playerPosX = boardRight - 1;
     }
     // if (prevScreen == "RIGHT") {
@@ -48,7 +48,7 @@ function game() {
     if (nextScreen == "TOP") {
       shift += 1;
       playerPosY = boardGround - 1;
-    } else{
+    } else {
       playerPosY = boardTop + 1;
     }
   } else {
@@ -97,6 +97,24 @@ function Screen(lev) {
   this.platform = function (xp, yp, l, w) {
     rect(xp, yp, l, w);
 
+    if (playerPosX >= xp - (0.5 * l) && playerPosX <= xp + (0.5 * l) && playerPosY <= yp - (0.5 * w) - (0.5*playerSize)) {
+      above = true;
+      ground = yp - (0.5*w);
+      // playerPosY = 5038549348490;
+      if (playerPosY > yp - (0.5 * w)-(0.5*playerSize)) {
+        if (above) {
+          playerPosY = yp - (0.5*w)-(0.5*playerSize);
+          // playerPosY = 100;
+          ySpeed = 0;
+          ground = yp - (0.5*w);
+        }else{
+          // ground = boardGround;
+        }
+      }
+    } else {
+      above = false;
+    }
+
     function distance() {
       let p1 = createVector(xp, yp);
       let p2 = createVector(playerPosX, playerPosY);
@@ -124,7 +142,7 @@ function Screen(lev) {
     this.shiftZone("RIGHT");
     return;
   } else if (lev == 1) {
-    this.platform(100, 100, 150, 50)
+    this.platform(1000, 600, 150, 50)
     this.shiftZone("RIGHT");
   } else if (lev == 2) {
     return;

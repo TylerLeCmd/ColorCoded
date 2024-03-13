@@ -30,6 +30,8 @@ var boardTop = 0;
 var boardGround = 0;
 let hitWall = true;
 
+let above = false;
+
 let start = false;
 let desc = false;
 var shift = 0;
@@ -106,12 +108,15 @@ function draw() {
     text(onLeft, 10, 120);
     text(onRight, 10, 130);
     text(onTop, 10, 140);
+    text(above, 10, 150);
     // text(floor(clock / 60), 10, 60);
     text(clock, 10, 60);
     text(playerJump, 10, 70);
     text(timeStamp, 10, 80);
     text(jumpType, 10, 90);
     text(hitWall, 10, 110);
+    text(mouseX, 40, 70);
+    text(mouseY, 40, 80);
     text(playerPosX, 40, 90);
     text(playerPosY, 40, 110);
     text(walkTimer, 40, 130);
