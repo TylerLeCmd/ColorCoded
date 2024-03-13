@@ -31,17 +31,23 @@ var boardGround = 0;
 let hitWall = true;
 
 let above = false;
+let sideHit = false;
 
 let start = false;
 let desc = false;
 var shift = 0;
 let screen = [];
+played = false
 
 let walkRAni = [];
 let walkLAni = [];
 let walkTimer = 0;
 let walkFrame = 0;
-function preload(){
+
+let soundEff = [];
+function preload() {
+  soundFormats('mp3', 'm4a');
+
   walkRAni[0] = loadImage('assets/idle_square-2.png')
   walkRAni[1] = loadImage('assets/walk_cycle-1.png');
   walkRAni[2] = loadImage('assets/walk_cycle-2.png');
@@ -66,8 +72,26 @@ function preload(){
   walkLAni[9] = loadImage('assets/lwalk11.png');
   walkLAni[10] = loadImage('assets/lwalk12.png');
 
+  soundEff[0] = loadSound('assets/fblasound1.mp3')
+  soundEff[1] = loadSound('assets/fblasound2.mp3')
+  soundEff[2] = loadSound('assets/fblasound3.mp3')
+  soundEff[3] = loadSound('assets/fblasound4.mp3')
+  soundEff[4] = loadSound('assets/fblasound5.mp3')
+  soundEff[5] = loadSound('assets/fblasound6.mp3')
+  soundEff[6] = loadSound('assets/fblasound7.mp3')
+  soundEff[7] = loadSound('assets/fblasound8.mp3')
+  soundEff[8] = loadSound('assets/fblasound9.mp3')
+  soundEff[9] = loadSound('assets/fblasound10.mp3')
+  soundEff[10] = loadSound('assets/fblasound11.mp3')
+
+  background1 = loadImage('assets/building1.jpg')
+  background2 = loadImage('assets/businessup.jpg')
+
   squatAni = loadImage('assets/idle_square-3.png')
   jumpAni = loadImage('assets/idle_square-4.png')
+
+  arrow = loadImage('assets/redarrow.png')
+  fbla = loadImage('assets/fblablocks.png')
 }
 
 function setup() {
@@ -78,10 +102,12 @@ function setup() {
   imageMode(CENTER);
   playerPosX = windowWidth / 2;
   playerPosY = windowHeight / 2;
+  boardLeft = windowWidth / 2 - boardW / 2;
+  boardRight = windowWidth / 2 + boardW / 2;
+  boardTop = windowHeight / 2 - boardH / 2;
+  boardGround = windowHeight / 2 + boardH / 2;
+  ground = boardGround;
   font = loadFont('MinecraftRegular-Bmg3.otf');
-  for (let i = 0; i < 31; i++){
-    screen[i] = Screen(i);
-  }
 }
 
 function draw() {
@@ -103,33 +129,41 @@ function draw() {
     fill(255);
     textSize(12);
     textAlign(LEFT);
-    text(`${key} ${keyCode}`, 10, 40);
-    text(onGround, 10, 50);
-    text(onLeft, 10, 120);
-    text(onRight, 10, 130);
-    text(onTop, 10, 140);
-    text(above, 10, 150);
-    // text(floor(clock / 60), 10, 60);
-    text(clock, 10, 60);
-    text(playerJump, 10, 70);
-    text(timeStamp, 10, 80);
-    text(jumpType, 10, 90);
-    text(hitWall, 10, 110);
-    text(mouseX, 40, 70);
-    text(mouseY, 40, 80);
-    text(playerPosX, 40, 90);
-    text(playerPosY, 40, 110);
-    text(walkTimer, 40, 130);
-    text(walkFrame, 40, 150);
-    text(shift, 40, 170);
-    if (jumpType == "R") {
-      text("RIGHT JUMP", 10, 100);
-    } else if (jumpType == "L") {
-      text("LEFT JUMP", 10, 100);
-    } else { }
-    // clock++;
-    if (clock / 60 >= 60) {
-      clock = 0;
+    // if (keyIsDown(73)) {
+      text(`${key} ${keyCode}`, 10, 40);
+      text(onGround, 10, 50);
+      text(onLeft, 10, 120);
+      text(onRight, 10, 130);
+      text(onTop, 10, 140);
+      text(above, 10, 150);
+      // text(floor(clock / 60), 10, 60);
+      text(clock, 10, 60);
+      text(playerJump, 10, 70);
+      text(timeStamp, 10, 80);
+      text(jumpType, 10, 90);
+      text(hitWall, 10, 110);
+      text(mouseX, 40, 70);
+      text(mouseY, 40, 80);
+      // text(playerPosX, 40, 90);
+      // text(playerPosY, 40, 110);
+      text(walkTimer, 40, 130);
+      text(walkFrame, 40, 150);
+      text(shift, 40, 170);
+      text(boardLeft, 80, 110);
+      text(boardRight, 80, 130);
+      text(boardGround, 80, 150);
+      text(boardTop, 80, 170);
+      text(ground, 80, 90);
+      text(ground, 110, 90);
+      if (jumpType == "R") {
+        text("RIGHT JUMP", 10, 100);
+      } else if (jumpType == "L") {
+        text("LEFT JUMP", 10, 100);
+      } else { }
+      // clock++;
+      if (clock / 60 >= 60) {
+        clock = 0;
+      // }
     }
   }
 }
