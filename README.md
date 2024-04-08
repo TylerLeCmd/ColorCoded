@@ -7,4 +7,4 @@ This game was originally created and intended as a "FBLA Motivation" game, but I
 
 On the off chance I don't think a Foddian climbing game will work, this game will be majorly adapted to a rouge-like in order to keep my sanity.
 
-(Unfortunately I had no diagrams or flow maps because I was sending it on the fly :(/ )
+(Unfortunately I had no diagrams or flow maps because I was sending it on the fly :( )
