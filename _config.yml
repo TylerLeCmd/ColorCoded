@@ -1,0 +1,19 @@
+title: Computer Programming Projects (The Sequel)
+theme: minima
+
+minima:
+  skin: dark
+  date_format: "%b %-d, %Y"
+  
+header_pages:
+  - about.md
+  - portfolio.md
+
+name: Tyler Le
+email: albertwork.tl+school@gmail.com
+
+description: >
+  This is the portfolio produced by Tyler Le. It's comprised
+  of AP Computer Programming projects from the 2023-2024
+  school year at Skyline High School. Thanks for checking
+  it out!
